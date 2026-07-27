@@ -2,7 +2,8 @@ Index: code-server/lib/vscode/src/vs/base/browser/touch.ts
 ===================================================================
 --- code-server.orig/lib/vscode/src/vs/base/browser/touch.ts
 +++ code-server/lib/vscode/src/vs/base/browser/touch.ts
-@@ -94,7 +94,7 @@
+@@ -93,7 +93,7 @@ export class Gesture extends Disposable {
+ 
  		this._register(EventUtils.runAndSubscribe(DomUtils.onDidRegisterWindow, ({ window, disposables }) => {
  			disposables.add(DomUtils.addDisposableListener(window.document, 'touchstart', (e: TouchEvent) => this.onTouchStart(e), { passive: false }));
 -			disposables.add(DomUtils.addDisposableListener(window.document, 'touchend', (e: TouchEvent) => this.onTouchEnd(window, e)));
@@ -10,7 +11,7 @@ Index: code-server/lib/vscode/src/vs/base/browser/touch.ts
  			disposables.add(DomUtils.addDisposableListener(window.document, 'touchmove', (e: TouchEvent) => this.onTouchMove(e), { passive: false }));
  		}, { window: mainWindow, disposables: this._store }));
  	}
-@@ -187,6 +187,7 @@
+@@ -187,6 +187,7 @@ export class Gesture extends Disposable {
  	private onTouchEnd(targetWindow: Window, e: TouchEvent): void {
  		const timestamp = Date.now(); // use Date.now() because on FF e.timeStamp is not epoch based.
  
@@ -18,7 +19,7 @@ Index: code-server/lib/vscode/src/vs/base/browser/touch.ts
  		const activeTouchCount = Object.keys(this.activeTouches).length;
  
  		for (let i = 0, len = e.changedTouches.length; i < len; i++) {
-@@ -208,6 +209,7 @@
+@@ -208,6 +209,7 @@ export class Gesture extends Disposable {
  				const evt = this.newGestureEvent(EventType.Tap, data.initialTarget);
  				evt.pageX = data.rollingPageX.at(-1)!;
  				evt.pageY = data.rollingPageY.at(-1)!;
@@ -26,7 +27,7 @@ Index: code-server/lib/vscode/src/vs/base/browser/touch.ts
  				this.dispatchEvent(evt);
  
  			} else if (holdTime >= Gesture.HOLD_DELAY
-@@ -246,7 +248,7 @@
+@@ -245,7 +247,7 @@ export class Gesture extends Disposable {
  			delete this.activeTouches[touch.identifier];
  		}
  
@@ -39,7 +40,8 @@ Index: code-server/lib/vscode/src/vs/platform/actions/browser/dropdownWithPrimar
 ===================================================================
 --- code-server.orig/lib/vscode/src/vs/platform/actions/browser/dropdownWithPrimaryActionViewItem.ts
 +++ code-server/lib/vscode/src/vs/platform/actions/browser/dropdownWithPrimaryActionViewItem.ts
-@@ -95,8 +95,9 @@
+@@ -94,8 +94,9 @@ export class DropdownWithPrimaryActionViewItem extends BaseActionViewItem {
+ 
  	override render(container: HTMLElement): void {
  		this._container = container;
 -		super.render(this._container);
