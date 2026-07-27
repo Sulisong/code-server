@@ -2,6 +2,15 @@ Index: code-server/lib/vscode/src/vs/platform/actions/browser/dropdownWithPrimar
 ===================================================================
 --- code-server.orig/lib/vscode/src/vs/platform/actions/browser/dropdownWithPrimaryActionViewItem.ts
 +++ code-server/lib/vscode/src/vs/platform/actions/browser/dropdownWithPrimaryActionViewItem.ts
+@@ -63,7 +63,7 @@ export class DropdownWithPrimaryActionViewItem extends BaseActionViewItem {
+ 		}
+ 
+ 		this._dropdown = new DropdownMenuActionViewItem(dropdownAction, dropdownMenuActions, this._contextMenuProvider, {
+-			menuAsChild: _options?.menuAsChild ?? true,
++			menuAsChild: _options?.menuAsChild ?? false,
+ 			classNames: className ? ['codicon', 'codicon-chevron-down', className] : ['codicon', 'codicon-chevron-down'],
+ 			menuClassName: _options?.menuClassName,
+ 			closeAnimation: _options?.closeAnimation,
 @@ -94,8 +94,9 @@ export class DropdownWithPrimaryActionViewItem extends BaseActionViewItem {
  
  	override render(container: HTMLElement): void {
@@ -13,3 +22,12 @@ Index: code-server/lib/vscode/src/vs/platform/actions/browser/dropdownWithPrimar
  		const primaryContainer = DOM.$('.action-container');
  		primaryContainer.role = 'button';
  		primaryContainer.ariaDisabled = String(!this.action.enabled);
+@@ -161,7 +162,7 @@ export class DropdownWithPrimaryActionViewItem extends BaseActionViewItem {
+ 	update(dropdownAction: IAction, dropdownMenuActions: IAction[], dropdownIcon?: string): void {
+ 		this._dropdown.dispose();
+ 		this._dropdown = new DropdownMenuActionViewItem(dropdownAction, dropdownMenuActions, this._contextMenuProvider, {
+-			menuAsChild: this._options?.menuAsChild ?? true,
++			menuAsChild: this._options?.menuAsChild ?? false,
+ 			classNames: ['codicon', dropdownIcon || 'codicon-chevron-down'],
+ 			menuClassName: this._options?.menuClassName,
+ 			closeAnimation: this._options?.closeAnimation,
