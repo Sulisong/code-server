@@ -1,0 +1,13 @@
+Index: code-server/lib/vscode/src/vs/base/browser/touch.ts
+===================================================================
+--- code-server.orig/lib/vscode/src/vs/base/browser/touch.ts
++++ code-server/lib/vscode/src/vs/base/browser/touch.ts
+@@ -93,7 +93,7 @@
+ 
+ 		this._register(EventUtils.runAndSubscribe(DomUtils.onDidRegisterWindow, ({ window, disposables }) => {
+ 			disposables.add(DomUtils.addDisposableListener(window.document, 'touchstart', (e: TouchEvent) => this.onTouchStart(e), { passive: false }));
+-			disposables.add(DomUtils.addDisposableListener(window.document, 'touchend', (e: TouchEvent) => this.onTouchEnd(window, e)));
++			disposables.add(DomUtils.addDisposableListener(window.document, 'touchend', (e: TouchEvent) => this.onTouchEnd(window, e), { passive: false }));
+ 			disposables.add(DomUtils.addDisposableListener(window.document, 'touchmove', (e: TouchEvent) => this.onTouchMove(e), { passive: false }));
+ 		}, { window: mainWindow, disposables: this._store }));
+ 	}
