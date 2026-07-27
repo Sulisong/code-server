@@ -16,8 +16,8 @@ Index: code-server/lib/vscode/src/vs/base/browser/touch.ts
  			targets.sort((a, b) => a[0] - b[0]);
  
 -			for (const [_, target] of targets) {
-+			for (const [depth, target] of targets) {
-+				if (event.propagationStopped) {
++			for (const [_, target] of targets) {
++				if (event.cancelBubble) {
 +					break;
 +				}
  				target.dispatchEvent(event);
