@@ -2,8 +2,7 @@ Index: code-server/lib/vscode/src/vs/base/browser/touch.ts
 ===================================================================
 --- code-server.orig/lib/vscode/src/vs/base/browser/touch.ts
 +++ code-server/lib/vscode/src/vs/base/browser/touch.ts
-@@ -93,7 +93,7 @@
- 
+@@ -94,7 +94,7 @@
  		this._register(EventUtils.runAndSubscribe(DomUtils.onDidRegisterWindow, ({ window, disposables }) => {
  			disposables.add(DomUtils.addDisposableListener(window.document, 'touchstart', (e: TouchEvent) => this.onTouchStart(e), { passive: false }));
 -			disposables.add(DomUtils.addDisposableListener(window.document, 'touchend', (e: TouchEvent) => this.onTouchEnd(window, e)));
@@ -11,6 +10,31 @@ Index: code-server/lib/vscode/src/vs/base/browser/touch.ts
  			disposables.add(DomUtils.addDisposableListener(window.document, 'touchmove', (e: TouchEvent) => this.onTouchMove(e), { passive: false }));
  		}, { window: mainWindow, disposables: this._store }));
  	}
+@@ -187,6 +187,7 @@
+ 	private onTouchEnd(targetWindow: Window, e: TouchEvent): void {
+ 		const timestamp = Date.now(); // use Date.now() because on FF e.timeStamp is not epoch based.
+ 
++		let didDispatchTap = false;
+ 		const activeTouchCount = Object.keys(this.activeTouches).length;
+ 
+ 		for (let i = 0, len = e.changedTouches.length; i < len; i++) {
+@@ -208,6 +209,7 @@
+ 				const evt = this.newGestureEvent(EventType.Tap, data.initialTarget);
+ 				evt.pageX = data.rollingPageX.at(-1)!;
+ 				evt.pageY = data.rollingPageY.at(-1)!;
++				didDispatchTap = true;
+ 				this.dispatchEvent(evt);
+ 
+ 			} else if (holdTime >= Gesture.HOLD_DELAY
+@@ -246,7 +248,7 @@
+ 			delete this.activeTouches[touch.identifier];
+ 		}
+ 
+-		if (this.dispatched) {
++		if (didDispatchTap) {
+ 			e.preventDefault();
+ 			e.stopPropagation();
+ 			this.dispatched = false;
 Index: code-server/lib/vscode/src/vs/platform/actions/browser/dropdownWithPrimaryActionViewItem.ts
 ===================================================================
 --- code-server.orig/lib/vscode/src/vs/platform/actions/browser/dropdownWithPrimaryActionViewItem.ts
