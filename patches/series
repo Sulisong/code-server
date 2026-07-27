@@ -26,3 +26,4 @@ copilot.diff
 app-name.diff
 csp-hashes.diff
 touch-passive.diff
+nan-mouse-event.diff

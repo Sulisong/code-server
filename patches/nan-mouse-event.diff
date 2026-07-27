@@ -1,0 +1,21 @@
+Index: code-server/lib/vscode/src/vs/workbench/contrib/terminal/browser/terminalInstance.ts
+===================================================================
+--- code-server.orig/lib/vscode/src/vs/workbench/contrib/terminal/browser/terminalInstance.ts
++++ code-server/lib/vscode/src/vs/workbench/contrib/terminal/browser/terminalInstance.ts
+@@ -875,7 +875,15 @@ export class TerminalInstance extends Disposable implements ITerminalInstance {
+ 		this._register(xterm.raw.buffer.onBufferChange(() => this._refreshAltBufferContextKey()));
+ 
+ 		this._register(this._processManager.onProcessData(e => this._onProcessData(e)));
+-		this._register(xterm.raw.onData(async data => {
++		this._register(xterm.raw.onData(async (data: string) => {
++			// Filter out malformed mouse escape sequences with NaN coordinates
++			// that can occur on Android WebView when touch gestures trigger mouse events
++			if (data.includes('NaN')) {
++				data = data.replace(/\x1b\[<[\d;]*NaN[;\d]*[Mm]/g, '');
++				if (!data) {
++					return;
++				}
++			}
+ 			await this._handleOnData(data);
+ 		}));
+ 		this._register(xterm.raw.onBinary(data => this._processManager.processBinary(data)));
