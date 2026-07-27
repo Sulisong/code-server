@@ -8,9 +8,9 @@ Index: code-server/lib/vscode/src/vs/workbench/contrib/terminal/browser/terminal
  		this._register(this._processManager.onProcessData(e => this._onProcessData(e)));
 -		this._register(xterm.raw.onData(async data => {
 +		this._register(xterm.raw.onData(async (data: string) => {
-+			// Filter out malformed SGR mouse escape sequences with NaN coordinates
-+			// that can occur on Android WebView when touch gestures trigger mouse events
++			// Debug: log data containing NaN to diagnose malformed mouse events
 +			if (data.includes('NaN')) {
++				console.warn('[code-server] NaN in terminal onData:', JSON.stringify(data), Array.from(data).map(c => c.charCodeAt(0)));
 +				data = data.replace(/\x1b\[<[^Mm]*NaN[^Mm]*[Mm]/g, '');
 +				if (!data) {
 +					return;
