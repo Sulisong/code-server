@@ -11,16 +11,17 @@ Index: code-server/lib/vscode/src/vs/base/browser/touch.ts
  			disposables.add(DomUtils.addDisposableListener(window.document, 'touchmove', (e: TouchEvent) => this.onTouchMove(e), { passive: false }));
  		}, { window: mainWindow, disposables: this._store }));
  	}
-@@ -299,7 +299,10 @@
- 
- 			targets.sort((a, b) => a[0] - b[0]);
- 
--			for (const [_, target] of targets) {
-+			for (const [_, target] of targets) {
-+				if (event.cancelBubble) {
-+					break;
-+				}
- 				target.dispatchEvent(event);
- 				this.dispatched = true;
- 			}
-
+Index: code-server/lib/vscode/src/vs/platform/actions/browser/dropdownWithPrimaryActionViewItem.ts
+===================================================================
+--- code-server.orig/lib/vscode/src/vs/platform/actions/browser/dropdownWithPrimaryActionViewItem.ts
++++ code-server/lib/vscode/src/vs/platform/actions/browser/dropdownWithPrimaryActionViewItem.ts
+@@ -95,8 +95,9 @@
+ 	override render(container: HTMLElement): void {
+ 		this._container = container;
+-		super.render(this._container);
++		this.element = this._container;
+ 		this._container.classList.add('monaco-dropdown-with-primary');
++		this.updateEnabled();
+ 		const primaryContainer = DOM.$('.action-container');
+ 		primaryContainer.role = 'button';
+ 		primaryContainer.ariaDisabled = String(!this.action.enabled);
