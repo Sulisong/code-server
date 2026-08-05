@@ -52,13 +52,14 @@ Index: code-server/lib/vscode/src/vs/workbench/browser/client.ts
 ===================================================================
 --- code-server.orig/lib/vscode/src/vs/workbench/browser/client.ts
 +++ code-server/lib/vscode/src/vs/workbench/browser/client.ts
-@@ -1,12 +1,16 @@
+@@ -1,18 +1,22 @@
  import { Disposable } from "../../base/common/lifecycle.js";
-+import { URI } from "../../base/common/uri.js";
- import { localize } from '../../nls.js';
+ import { URI } from "../../base/common/uri.js";
+ import { commands } from "./web.factory.js";
 +import { MenuId, MenuRegistry } from '../../platform/actions/common/actions.js';
 +import { CommandsRegistry } from '../../platform/commands/common/commands.js';
  import { ILogService } from '../../platform/log/common/log.js';
+ import { localize } from '../../nls.js';
  import { INotificationService, Severity } from '../../platform/notification/common/notification.js';
  import { IProductService } from '../../platform/product/common/productService.js';
  import { IStorageService, StorageScope, StorageTarget } from '../../platform/storage/common/storage.js';
@@ -69,7 +70,12 @@ Index: code-server/lib/vscode/src/vs/workbench/browser/client.ts
  	constructor (
  		@ILogService private logService: ILogService,
  		@INotificationService private notificationService: INotificationService,
-@@ -90,6 +94,10 @@ export class CodeServerClient extends Di
+ 		@IProductService private productService: IProductService,
+ 		@IStorageService private storageService: IStorageService,
+ 	) {
+ 		super();
+ 	}
+@@ -92,6 +96,10 @@
  		if (this.productService.updateEndpoint) {
  			this.checkUpdates(this.productService.updateEndpoint)
  		}
@@ -80,7 +86,7 @@ Index: code-server/lib/vscode/src/vs/workbench/browser/client.ts
  	}
  
  	private checkUpdates(updateEndpoint: string) {
-@@ -141,4 +149,25 @@ export class CodeServerClient extends Di
+@@ -143,4 +151,25 @@
  
  		updateLoop();
  	}
