@@ -113,8 +113,9 @@ Index: code-server/lib/vscode/src/vs/workbench/browser/client.ts
 ===================================================================
 --- /dev/null
 +++ code-server/lib/vscode/src/vs/workbench/browser/client.ts
-@@ -0,0 +1,46 @@
+@@ -0,0 +1,54 @@
 +import { Disposable } from "../../base/common/lifecycle.js";
++import { commands } from "./web.factory.js";
 +
 +export class CodeServerClient extends Disposable {
 +	constructor (
@@ -135,6 +136,13 @@ Index: code-server/lib/vscode/src/vs/workbench/browser/client.ts
 +			const listeners = new Map<string, (event: Event) => void>();
 +
 +			window.addEventListener('message', parentEvent => {
++				if (parentEvent.data?.type === 'executeCommand') {
++					const { command, args } = parentEvent.data;
++					console.log('[CodeServerClient] executeCommand:', command, JSON.stringify(args));
++					commands.executeCommand(command, ...(args || []));
++					return;
++				}
++
 +				const eventName = parentEvent.data.bind || parentEvent.data.unbind;
 +				if (eventName) {
 +					const oldListener = listeners.get(eventName);
