@@ -68,7 +68,7 @@ Index: code-server/lib/vscode/src/vs/workbench/browser/client.ts
  	constructor (
  		@ILogService private logService: ILogService,
  		@INotificationService private notificationService: INotificationService,
-@@ -81,6 +85,10 @@ export class CodeServerClient extends Di
+@@ -89,6 +93,10 @@ export class CodeServerClient extends Di
  		if (this.productService.updateEndpoint) {
  			this.checkUpdates(this.productService.updateEndpoint)
  		}
@@ -79,7 +79,7 @@ Index: code-server/lib/vscode/src/vs/workbench/browser/client.ts
  	}
  
  	private checkUpdates(updateEndpoint: string) {
-@@ -132,4 +140,25 @@ export class CodeServerClient extends Di
+@@ -140,4 +148,25 @@ export class CodeServerClient extends Di
  
  		updateLoop();
  	}
