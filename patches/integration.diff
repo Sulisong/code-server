@@ -113,7 +113,7 @@ Index: code-server/lib/vscode/src/vs/workbench/browser/client.ts
 ===================================================================
 --- /dev/null
 +++ code-server/lib/vscode/src/vs/workbench/browser/client.ts
-@@ -0,0 +1,55 @@
+@@ -0,0 +1,57 @@
 +import { Disposable } from "../../base/common/lifecycle.js";
 +import { URI } from "../../base/common/uri.js";
 +import { commands } from "./web.factory.js";
