@@ -16,9 +16,9 @@ Index: code-server/lib/vscode/src/vs/workbench/browser/client.ts
 ===================================================================
 --- code-server.orig/lib/vscode/src/vs/workbench/browser/client.ts
 +++ code-server/lib/vscode/src/vs/workbench/browser/client.ts
-@@ -1,8 +1,12 @@
+@@ -1,9 +1,12 @@
  import { Disposable } from "../../base/common/lifecycle.js";
-+import { URI } from "../../base/common/uri.js";
+ import { URI } from "../../base/common/uri.js";
  import { commands } from "./web.factory.js";
 +import { localize } from '../../nls.js';
 +import { INotificationService, Severity } from '../../platform/notification/common/notification.js';
@@ -29,7 +29,7 @@ Index: code-server/lib/vscode/src/vs/workbench/browser/client.ts
  	) {
  		super();
  	}
-@@ -50,5 +54,31 @@ export class CodeServerClient extends Di
+@@ -53,5 +56,31 @@ export class CodeServerClient extends Di
  				}
  			});
  		}
