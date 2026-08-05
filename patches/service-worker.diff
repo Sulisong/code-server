@@ -21,7 +21,7 @@ Index: code-server/lib/vscode/src/vs/workbench/browser/client.ts
 ===================================================================
 --- code-server.orig/lib/vscode/src/vs/workbench/browser/client.ts
 +++ code-server/lib/vscode/src/vs/workbench/browser/client.ts
-@@ -97,6 +97,10 @@ export class CodeServerClient extends Di
+@@ -98,6 +98,10 @@ export class CodeServerClient extends Di
  		if (this.productService.logoutEndpoint) {
  			this.addLogoutCommand(this.productService.logoutEndpoint);
  		}
@@ -32,7 +32,7 @@ Index: code-server/lib/vscode/src/vs/workbench/browser/client.ts
  	}
  
  	private checkUpdates(updateEndpoint: string) {
-@@ -169,4 +173,17 @@ export class CodeServerClient extends Di
+@@ -170,4 +174,17 @@ export class CodeServerClient extends Di
  			});
  		}
  	}

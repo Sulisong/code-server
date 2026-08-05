@@ -52,8 +52,9 @@ Index: code-server/lib/vscode/src/vs/workbench/browser/client.ts
 ===================================================================
 --- code-server.orig/lib/vscode/src/vs/workbench/browser/client.ts
 +++ code-server/lib/vscode/src/vs/workbench/browser/client.ts
-@@ -1,11 +1,15 @@
+@@ -1,12 +1,16 @@
  import { Disposable } from "../../base/common/lifecycle.js";
++import { URI } from "../../base/common/uri.js";
  import { localize } from '../../nls.js';
 +import { MenuId, MenuRegistry } from '../../platform/actions/common/actions.js';
 +import { CommandsRegistry } from '../../platform/commands/common/commands.js';
@@ -68,7 +69,7 @@ Index: code-server/lib/vscode/src/vs/workbench/browser/client.ts
  	constructor (
  		@ILogService private logService: ILogService,
  		@INotificationService private notificationService: INotificationService,
-@@ -89,6 +93,10 @@ export class CodeServerClient extends Di
+@@ -90,6 +94,10 @@ export class CodeServerClient extends Di
  		if (this.productService.updateEndpoint) {
  			this.checkUpdates(this.productService.updateEndpoint)
  		}
@@ -79,7 +80,7 @@ Index: code-server/lib/vscode/src/vs/workbench/browser/client.ts
  	}
  
  	private checkUpdates(updateEndpoint: string) {
-@@ -140,4 +148,25 @@ export class CodeServerClient extends Di
+@@ -141,4 +149,25 @@ export class CodeServerClient extends Di
  
  		updateLoop();
  	}

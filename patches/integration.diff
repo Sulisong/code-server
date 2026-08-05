@@ -113,8 +113,9 @@ Index: code-server/lib/vscode/src/vs/workbench/browser/client.ts
 ===================================================================
 --- /dev/null
 +++ code-server/lib/vscode/src/vs/workbench/browser/client.ts
-@@ -0,0 +1,54 @@
+@@ -0,0 +1,55 @@
 +import { Disposable } from "../../base/common/lifecycle.js";
++import { URI } from "../../base/common/uri.js";
 +import { commands } from "./web.factory.js";
 +
 +export class CodeServerClient extends Disposable {
@@ -138,8 +139,10 @@ Index: code-server/lib/vscode/src/vs/workbench/browser/client.ts
 +			window.addEventListener('message', parentEvent => {
 +				if (parentEvent.data?.type === 'executeCommand') {
 +					const { command, args } = parentEvent.data;
-+					console.log('[CodeServerClient] executeCommand:', command, JSON.stringify(args));
-+					commands.executeCommand(command, ...(args || []));
++					// 将纯路径字符串转为 URI 对象（vscode.open 需要 URI 类型）
++					const resolvedArgs = (args || []).map(a => typeof a === 'string' && a.startsWith('/') ? URI.file(a) : a);
++					console.log('[CodeServerClient] executeCommand:', command, resolvedArgs.map(a => a.toString()));
++					commands.executeCommand(command, ...resolvedArgs);
 +					return;
 +				}
 +
