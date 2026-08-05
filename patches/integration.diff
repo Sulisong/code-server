@@ -140,8 +140,8 @@ Index: code-server/lib/vscode/src/vs/workbench/browser/client.ts
 +				if (parentEvent.data?.type === 'executeCommand') {
 +					const { command, args } = parentEvent.data;
 +					// 将纯路径字符串转为 URI 对象（vscode.open 需要 URI 类型）
-+					const resolvedArgs = (args || []).map(a => typeof a === 'string' && a.startsWith('/') ? URI.file(a) : a);
-+					console.log('[CodeServerClient] executeCommand:', command, resolvedArgs.map(a => a.toString()));
++					const resolvedArgs = (args || []).map((a: any) => typeof a === 'string' && a.startsWith('/') ? URI.file(a) : a);
++					console.log('[CodeServerClient] executeCommand:', command, resolvedArgs.map((a: any) => a.toString()));
 +					commands.executeCommand(command, ...resolvedArgs);
 +					return;
 +				}
