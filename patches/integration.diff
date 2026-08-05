@@ -113,8 +113,10 @@ Index: code-server/lib/vscode/src/vs/workbench/browser/client.ts
 ===================================================================
 --- /dev/null
 +++ code-server/lib/vscode/src/vs/workbench/browser/client.ts
-@@ -0,0 +1,46 @@
+@@ -0,0 +1,57 @@
 +import { Disposable } from "../../base/common/lifecycle.js";
++import { URI } from "../../base/common/uri.js";
++import { commands } from "./web.factory.js";
 +
 +export class CodeServerClient extends Disposable {
 +	constructor (
@@ -135,6 +137,15 @@ Index: code-server/lib/vscode/src/vs/workbench/browser/client.ts
 +			const listeners = new Map<string, (event: Event) => void>();
 +
 +			window.addEventListener('message', parentEvent => {
++				if (parentEvent.data?.type === 'executeCommand') {
++					const { command, args } = parentEvent.data;
++					// 服务器文件系统用 vscode-remote:// scheme（file:// 绑定的是浏览器 IndexedDB）
++					const resolvedArgs = (args || []).map((a: any) => typeof a === 'string' && a.startsWith('/') ? URI.from({ scheme: 'vscode-remote', authority: window.location.host, path: a }) : a);
++					console.log('[CodeServerClient] executeCommand:', command, resolvedArgs.map((a: any) => a.toString()));
++					commands.executeCommand(command, ...resolvedArgs);
++					return;
++				}
++
 +				const eventName = parentEvent.data.bind || parentEvent.data.unbind;
 +				if (eventName) {
 +					const oldListener = listeners.get(eventName);
