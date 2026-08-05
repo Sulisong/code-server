@@ -139,8 +139,8 @@ Index: code-server/lib/vscode/src/vs/workbench/browser/client.ts
 +			window.addEventListener('message', parentEvent => {
 +				if (parentEvent.data?.type === 'executeCommand') {
 +					const { command, args } = parentEvent.data;
-+					// 将纯路径字符串转为 URI 对象（vscode.open 需要 URI 类型）
-+					const resolvedArgs = (args || []).map((a: any) => typeof a === 'string' && a.startsWith('/') ? URI.file(a) : a);
++					// 服务器文件系统用 vscode-remote:// scheme（file:// 绑定的是浏览器 IndexedDB）
++					const resolvedArgs = (args || []).map((a: any) => typeof a === 'string' && a.startsWith('/') ? URI.from({ scheme: 'vscode-remote', authority: window.location.host, path: a }) : a);
 +					console.log('[CodeServerClient] executeCommand:', command, resolvedArgs.map((a: any) => a.toString()));
 +					commands.executeCommand(command, ...resolvedArgs);
 +					return;
